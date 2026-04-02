@@ -95,9 +95,18 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: useBrowserStack ? Object.keys(launchers) : ['Chrome'],
+    browsers: useBrowserStack ? Object.keys(launchers) : ['ChromeHeadlessNoSandbox'],
 
-    customLaunchers: launchers,
+    customLaunchers: {
+       ChromeHeadlessNoSandbox: {
+       base: 'WebDriver',
+       config: {
+        hostname: 'selenium',
+        port: 4444
+      },
+     browserName: 'chrome'
+    }
+    },
 
     // Recommeneded browserstack timeouts
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
@@ -122,7 +131,8 @@ module.exports = function (config) {
       'karma-firefox-launcher',
       'karma-junit-reporter',
       'karma-browserify',
-      'karma-browserstack-launcher'
+      'karma-browserstack-launcher',
+      'karma-webdriver-launcher'
     ],
 
     concurrency: 1,

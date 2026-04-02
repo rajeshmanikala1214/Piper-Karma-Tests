@@ -486,6 +486,7 @@
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.0",
     "karma-script-launcher": "^1.0.0",
+    "karma-webdriver-launcher": "^1.0.8",
     "mocha": "^4.1.0",
     "mocks": "^0.0.15",
     "proxyquire": "^2.1.3",
