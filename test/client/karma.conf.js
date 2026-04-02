@@ -95,14 +95,26 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: useBrowserStack ? Object.keys(launchers) : (process.env.CI ? ['ChromeHeadlessNoSandbox'] : ['Chrome']),
+    browsers: useBrowserStack ? Object.keys(launchers) : (process.env.CI ? ['SeleniumChrome'] : ['Chrome']),
 
     customLaunchers: {
-  ChromeHeadlessNoSandbox: {
-    base: 'ChromeHeadless',
-    flags: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage']
-  }
-},
+      // This is what you currently have (failing)
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage']
+      },
+      // ADD THIS: This tells Karma to use the Selenium Sidecar
+      SeleniumChrome: {
+        base: 'WebDriver',
+        config: {
+          hostname: 'selenium', // This matches your sidecarName in Jenkinsfile
+          port: 4444
+        },
+        browserName: 'chrome',
+        name: 'Karma',
+        pseudoActivityInterval: 30000
+      }
+    },
 
     // Recommeneded browserstack timeouts
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
