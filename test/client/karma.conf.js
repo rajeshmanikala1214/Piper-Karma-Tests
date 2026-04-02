@@ -98,15 +98,11 @@ module.exports = function (config) {
     browsers: useBrowserStack ? Object.keys(launchers) : (process.env.CI ? ['ChromeHeadlessNoSandbox'] : ['Chrome']),
 
     customLaunchers: {
-       ChromeHeadlessNoSandbox: {
-       base: 'WebDriver',
-       config: {
-       hostname: 'selenium',
-       port: 4444
-      },
-      browserName: 'chrome'
-     }
-    },
+  ChromeHeadlessNoSandbox: {
+    base: 'ChromeHeadless',
+    flags: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage']
+  }
+},
 
     // Recommeneded browserstack timeouts
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
