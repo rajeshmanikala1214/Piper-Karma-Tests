@@ -95,17 +95,17 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: useBrowserStack ? Object.keys(launchers) : ['ChromeHeadlessNoSandbox'],
+    browsers: useBrowserStack ? Object.keys(launchers) : (process.env.CI ? ['ChromeHeadlessNoSandbox'] : ['Chrome']),
 
     customLaunchers: {
        ChromeHeadlessNoSandbox: {
        base: 'WebDriver',
        config: {
-        hostname: 'selenium',
-        port: 4444
+       hostname: 'selenium',
+       port: 4444
       },
-     browserName: 'chrome'
-    }
+      browserName: 'chrome'
+     }
     },
 
     // Recommeneded browserstack timeouts
@@ -118,8 +118,8 @@ module.exports = function (config) {
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
-    singleRun: false,
-    autoWatch: true,
+    singleRun: true,
+    autoWatch: false,
 
     // report which specs are slower than 500ms
     // CLI --report-slower-than 500
