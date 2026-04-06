@@ -95,26 +95,9 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: useBrowserStack ? Object.keys(launchers) : (process.env.CI ? ['SeleniumChrome'] : ['Chrome']),
+    browsers: useBrowserStack ? Object.keys(launchers) : ['Chrome'],
 
-    customLaunchers: {
-      // This is what you currently have (failing)
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage']
-      },
-      // ADD THIS: This tells Karma to use the Selenium Sidecar
-      SeleniumChrome: {
-        base: 'WebDriver',
-        config: {
-          hostname: 'selenium', // This matches your sidecarName in Jenkinsfile
-          port: 4444
-        },
-        browserName: 'chrome',
-        name: 'Karma',
-        pseudoActivityInterval: 30000
-      }
-    },
+    customLaunchers: launchers,
 
     // Recommeneded browserstack timeouts
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
@@ -127,7 +110,7 @@ module.exports = function (config) {
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
     singleRun: true,
-    autoWatch: false,
+      autoWatch: true,
 
     // report which specs are slower than 500ms
     // CLI --report-slower-than 500
@@ -139,8 +122,7 @@ module.exports = function (config) {
       'karma-firefox-launcher',
       'karma-junit-reporter',
       'karma-browserify',
-      'karma-browserstack-launcher',
-      'karma-webdriver-launcher'
+      'karma-browserstack-launcher'
     ],
 
     concurrency: 1,
