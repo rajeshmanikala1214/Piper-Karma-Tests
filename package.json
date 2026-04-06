@@ -514,7 +514,7 @@
     "commit:check": "commitlint --from HEAD~1",
     "test:unit": "mocha \"test/unit/**/*.spec.js\"",
     "test:e2e": "cucumber-js test/e2e/*.feature",
-    "karma": "npm run test:client",
+    "karma": "npm run test:client -- --browsers SeleniumChrome",
     "test:client": "node bin/karma start test/client/karma.conf.js",
     "test": "npm run test:unit && npm run test:e2e && npm run test:client",
     "build": "node scripts/client.js build",
