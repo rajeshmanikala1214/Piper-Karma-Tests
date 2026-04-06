@@ -45,6 +45,7 @@ const launchers = {
     },
     browserName: 'chrome',
     name: 'Karma',
+    flags: ['--no-sandbox', '--disable-dev-shm-usage'],
     pseudoActivityInterval: 30000
   }
 }
@@ -83,7 +84,7 @@ module.exports = function (config) {
     // CLI --port 9876
     port: 9876,
 
-    //hostname: 'host.docker.internal',
+    hostname: '172.17.0.1',
 
     // enable / disable colors in the output (reporters and logs)
     // CLI --colors --no-colors
@@ -113,11 +114,10 @@ module.exports = function (config) {
 
     // Recommeneded browserstack timeouts
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
-    captureTimeout: 6e4,
-    browserDisconnectTolerance: 3,
-    browserDisconnectTimeout: 6e4,
-    browserSocketTimeout: 1.2e5,
-    browserNoActivityTimeout: 6e4,
+    captureTimeout: 210000,
+browserDisconnectTimeout: 210000,
+browserDisconnectTolerance: 3,
+browserNoActivityTimeout: 210000,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
