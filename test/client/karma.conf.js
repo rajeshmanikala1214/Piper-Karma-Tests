@@ -44,7 +44,8 @@ const launchers = {
       port: 4444
     },
     browserName: 'chrome',
-    name: 'Karma'
+    name: 'Karma',
+    pseudoActivityInterval: 30000
   }
 }
 
@@ -81,6 +82,8 @@ module.exports = function (config) {
     // web server port
     // CLI --port 9876
     port: 9876,
+
+    hostname: 'host.docker.internal',
 
     // enable / disable colors in the output (reporters and logs)
     // CLI --colors --no-colors
