@@ -36,6 +36,15 @@ const launchers = {
     browser_version: '9.0',
     os: 'Windows',
     os_version: '7'
+  },
+  SeleniumChrome: {
+    base: 'WebDriver',
+    config: {
+      hostname: 'selenium',
+      port: 4444
+    },
+    browserName: 'chrome',
+    name: 'Karma'
   }
 }
 
@@ -122,7 +131,8 @@ module.exports = function (config) {
       'karma-firefox-launcher',
       'karma-junit-reporter',
       'karma-browserify',
-      'karma-browserstack-launcher'
+      'karma-browserstack-launcher',
+      'karma-webdriver-launcher'
     ],
 
     concurrency: 1,
