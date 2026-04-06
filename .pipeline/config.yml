@@ -1,6 +1,7 @@
 steps:
   karmaExecuteTests:
+    dockerEnvVars:
+      CI: "true"
     dockerSidecarImage: "selenium/standalone-chrome:3.141.59"
     sidecarName: "selenium"
     verbose: true
-    
