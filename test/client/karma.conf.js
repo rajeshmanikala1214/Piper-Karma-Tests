@@ -83,7 +83,7 @@ module.exports = function (config) {
     // CLI --port 9876
     port: 9876,
 
-    hostname: 'host.docker.internal',
+    //hostname: 'host.docker.internal',
 
     // enable / disable colors in the output (reporters and logs)
     // CLI --colors --no-colors
