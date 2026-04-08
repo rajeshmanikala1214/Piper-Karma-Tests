@@ -1,7 +1,10 @@
+general:
+  buildTool: "npm"
+
 steps:
   karmaExecuteTests:
-    dockerEnvVars:
-      CI: "true"
-    dockerSidecarImage: "selenium/standalone-chrome:3.141.59"
+    runCommand: "npm run test:client"
+    installCommand: "echo skipping install"
+    sidecarImage: "selenium/standalone-chrome:3.141.59"   # ← PIN THIS explicitly
     sidecarName: "selenium"
     verbose: true

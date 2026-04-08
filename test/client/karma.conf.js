@@ -36,118 +36,61 @@ const launchers = {
     browser_version: '9.0',
     os: 'Windows',
     os_version: '7'
-  },
-  SeleniumChrome: {
-    base: 'WebDriver',
-    config: {
-      hostname: 'selenium',
-      port: 4444
-    },
-    browserName: 'chrome',
-    name: 'Karma',
-    flags: ['--no-sandbox', '--disable-dev-shm-usage'],
-    pseudoActivityInterval: 30000
   }
 }
-
 module.exports = function (config) {
   config.set({
-    // base path, that will be used to resolve files and exclude
     basePath: '../..',
-
     frameworks: ['browserify', 'mocha'],
-
-    // list of files / patterns to load in the browser
     files: [
       'test/client/*.js'
     ],
-
-    // list of files to exclude
     exclude: [
+      'test/client/karma.conf.js'
     ],
-
     preprocessors: {
       'test/client/*.js': ['browserify']
     },
-
-    // use dots reporter, as travis terminal does not support escaping sequences
-    // possible values: 'dots', 'progress'
-    // CLI --reporters progress
-    reporters: ['dots'],
-
+    reporters: ['dots', 'junit'],
     junitReporter: {
-      // will be resolved to basePath (in the same way as files/exclude patterns)
-      outputFile: 'test-results.xml'
+      outputFile: 'reports/TESTS-karma.xml',
+      useBrowserName: false
     },
-
-    // web server port
-    // CLI --port 9876
     port: 9876,
-
-    hostname: '172.17.0.1',
-
-    // enable / disable colors in the output (reporters and logs)
-    // CLI --colors --no-colors
+    // Use the env var Piper sets, fall back to 0.0.0.0 for local runs
+    hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
     colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    // CLI --log-level debug
     logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any file changes
-    // CLI --auto-watch --no-auto-watch
     autoWatch: false,
-
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera
-    // - Safari (only Mac)
-    // - PhantomJS
-    // - IE (only Windows)
-    // CLI --browsers Chrome,Firefox,Safari
-    browsers: useBrowserStack ? Object.keys(launchers) : ['Chrome'],
-
-    customLaunchers: launchers,
-
-    // Recommeneded browserstack timeouts
-    // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
+    browsers: ['SeleniumChrome'],
+    customLaunchers: {
+      SeleniumChrome: {
+        base: 'WebDriver',
+        config: {
+          hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || 'selenium',
+          port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
+        },
+        browserName: 'chrome',
+        name: 'Karma',
+        flags: ['--no-sandbox', '--disable-dev-shm-usage'],
+        pseudoActivityInterval: 30000
+      }
+    },
     captureTimeout: 210000,
-browserDisconnectTimeout: 210000,
-browserDisconnectTolerance: 3,
-browserNoActivityTimeout: 210000,
-
-    // Auto run tests on start (when browsers are captured) and exit
-    // CLI --single-run --no-single-run
-    singleRun: true,
-      autoWatch: true,
-
-    // report which specs are slower than 500ms
-    // CLI --report-slower-than 500
+    browserDisconnectTimeout: 210000,
+    browserDisconnectTolerance: 3,
+    browserNoActivityTimeout: 210000,
+    singleRun: true,   // autoWatch is automatically false when singleRun is true
     reportSlowerThan: 500,
-
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-junit-reporter',
       'karma-browserify',
-      'karma-browserstack-launcher',
       'karma-webdriver-launcher'
     ],
-
     concurrency: 1,
-
-    forceJSONP: true,
-
-    browserStack: {
-      project: 'Karma',
-      // The karma-browserstack-launcher polls for each browser.
-      // With many browsers the 120 requests per minute limit is hit
-      // resulting in fails Error: 403 Forbidden (Rate Limit Exceeded)
-      pollingTimeout: 10000
-    }
+    forceJSONP: true
   })
 }
