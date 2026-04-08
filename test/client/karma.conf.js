@@ -58,8 +58,12 @@ module.exports = function (config) {
     },
 
     // dots for console output + junit for XML report
-    reporters: ['dots', 'junit'],
-
+    reporters: ['progress', 'coverage'],
+    coverageReporter: {
+     type: 'lcov',
+     dir: 'reports',
+     subdir: 'coverage'
+    },
     junitReporter: {
       // resolves to <basePath>/reports/TESTS-karma.xml
       // = repo-root/reports/TESTS-karma.xml
