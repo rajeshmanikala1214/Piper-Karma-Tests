@@ -45,21 +45,38 @@ module.exports = function (config) {
     frameworks: ['browserify', 'mocha'],
 
     files: [
-      // Source files must be loaded so karma-coverage can instrument them
-      { pattern: 'client/**/*.js', included: false, served: false },
-      { pattern: 'lib/**/*.js', included: false, served: false },
-      // Test files
+      // Source files included AND served so coverage preprocessor can track them
+      'client/**/*.js',
+      'lib/**/*.js',
+      // Test files bundled with browserify
       'test/client/*.js'
     ],
 
     exclude: [
-      'test/client/karma.conf.js'
+      'test/client/karma.conf.js',
+      // Exclude files that use Node.js-only APIs that break in browser
+      'lib/config.js',
+      'lib/cli.js',
+      'lib/init.js',
+      'lib/server.js',
+      'lib/runner.js',
+      'lib/stopper.js',
+      'lib/detached.js',
+      'lib/index.js',
+      'lib/watcher.js',
+      'lib/launcher.js',
+      'lib/completion.js',
+      'lib/middleware/**/*.js',
+      'lib/launchers/**/*.js',
+      'lib/reporters/**/*.js',
+      'lib/utils/**/*.js',
+      'lib/init/**/*.js'
     ],
 
     preprocessors: {
       // Test files: bundled with browserify
       'test/client/*.js': ['browserify'],
-      // Source files: instrumented with coverage (Istanbul under the hood)
+      // Source files: instrumented with coverage
       'client/**/*.js': ['coverage'],
       'lib/**/*.js': ['coverage']
     },
@@ -69,18 +86,15 @@ module.exports = function (config) {
     coverageReporter: {
       dir: 'reports',
       reporters: [
-        // Cobertura XML — for Jenkins testsPublishResults + SonarQube
         {
           type: 'cobertura',
           subdir: 'coverage',
           file: 'coverage.xml'
         },
-        // lcov — backup for SonarQube lcov sensor
         {
           type: 'lcov',
           subdir: 'coverage'
         },
-        // Console summary
         {
           type: 'text-summary'
         }
