@@ -26,11 +26,11 @@ steps:
       - "-Dsonar.sources=client,lib"
       - "-Dsonar.tests=test/client"
       - "-Dsonar.test.inclusions=test/client/**/*.spec.js"
-      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*"
+      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,lib/config.js"
       - "-Dsonar.javascript.file.suffixes=.js"
       - "-Dsonar.login=ce4412122d0873794f82ff0aec9a3d969d2fa467"
       - "-Dsonar.javascript.lcov.reportPaths=reports/coverage/lcov.info"
-      - "-Dsonar.junit.reportPaths=reports"
+      - "-Dsonar.junit.reportPaths=reports/TESTS-karma.xml"
 
   testsPublishResults:
     failOnError: false
@@ -38,3 +38,8 @@ steps:
       pattern: "**/reports/TESTS*.xml"
       archive: true
       allowEmptyResults: true
+    cobertura:
+      pattern: "**/reports/coverage/coverage.xml"
+      archive: true
+      allowEmptyResults: true
+      onlyStableBuilds: false

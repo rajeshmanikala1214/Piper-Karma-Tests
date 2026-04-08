@@ -45,6 +45,10 @@ module.exports = function (config) {
     frameworks: ['browserify', 'mocha'],
 
     files: [
+      // Source files must be loaded so karma-coverage can instrument them
+      { pattern: 'client/**/*.js', included: false, served: false },
+      { pattern: 'lib/**/*.js', included: false, served: false },
+      // Test files
       'test/client/*.js'
     ],
 
@@ -53,9 +57,9 @@ module.exports = function (config) {
     ],
 
     preprocessors: {
-      // browserify bundles the test files
+      // Test files: bundled with browserify
       'test/client/*.js': ['browserify'],
-      // coverage instruments the SOURCE files (not the test files)
+      // Source files: instrumented with coverage (Istanbul under the hood)
       'client/**/*.js': ['coverage'],
       'lib/**/*.js': ['coverage']
     },
@@ -65,10 +69,21 @@ module.exports = function (config) {
     coverageReporter: {
       dir: 'reports',
       reporters: [
-        // lcov.info is what SonarQube reads
-        { type: 'lcov', subdir: 'coverage' },
-        // text-summary prints % to Jenkins console
-        { type: 'text-summary' }
+        // Cobertura XML — for Jenkins testsPublishResults + SonarQube
+        {
+          type: 'cobertura',
+          subdir: 'coverage',
+          file: 'coverage.xml'
+        },
+        // lcov — backup for SonarQube lcov sensor
+        {
+          type: 'lcov',
+          subdir: 'coverage'
+        },
+        // Console summary
+        {
+          type: 'text-summary'
+        }
       ]
     },
 
