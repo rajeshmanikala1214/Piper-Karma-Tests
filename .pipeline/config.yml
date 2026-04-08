@@ -29,6 +29,7 @@ steps:
       - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*"
       - "-Dsonar.javascript.file.suffixes=.js"
       - "-Dsonar.login=ce4412122d0873794f82ff0aec9a3d969d2fa467"
+      - "-Dsonar.javascript.lcov.reportPaths=reports/coverage/lcov.info"
       - "-Dsonar.junit.reportPaths=reports"
 
   testsPublishResults:
