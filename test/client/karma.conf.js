@@ -40,33 +40,53 @@ const launchers = {
 }
 module.exports = function (config) {
   config.set({
+    // basePath resolves to the repo root
     basePath: '../..',
+
     frameworks: ['browserify', 'mocha'],
+
     files: [
       'test/client/*.js'
     ],
+
     exclude: [
       'test/client/karma.conf.js'
     ],
+
     preprocessors: {
       'test/client/*.js': ['browserify']
     },
+
+    // dots for console output + junit for XML report
     reporters: ['dots', 'junit'],
+
     junitReporter: {
-      outputFile: 'reports/TESTS-karma.xml',
-      useBrowserName: false
+      // resolves to <basePath>/reports/TESTS-karma.xml
+      // = repo-root/reports/TESTS-karma.xml
+      outputDir: 'reports',
+      outputFile: 'TESTS-karma.xml',
+      useBrowserName: false,
+      suite: 'KarmaTests'
     },
+
     port: 9876,
-    // Use the env var Piper sets, fall back to 0.0.0.0 for local runs
+
+    // Piper injects PIPER_SELENIUM_HOSTNAME=karma into the karma container
+    // This is the hostname Selenium uses to call back to Karma server
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
+
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
+    singleRun: true,
+
     browsers: ['SeleniumChrome'],
+
     customLaunchers: {
       SeleniumChrome: {
         base: 'WebDriver',
         config: {
+          // Piper injects PIPER_SELENIUM_WEBDRIVER_HOSTNAME=selenium
           hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || 'selenium',
           port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
         },
@@ -76,12 +96,14 @@ module.exports = function (config) {
         pseudoActivityInterval: 30000
       }
     },
+
     captureTimeout: 210000,
     browserDisconnectTimeout: 210000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 210000,
-    singleRun: true,   // autoWatch is automatically false when singleRun is true
+
     reportSlowerThan: 500,
+
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
@@ -90,6 +112,7 @@ module.exports = function (config) {
       'karma-browserify',
       'karma-webdriver-launcher'
     ],
+
     concurrency: 1,
     forceJSONP: true
   })

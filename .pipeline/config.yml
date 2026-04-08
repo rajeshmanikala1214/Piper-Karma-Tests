@@ -2,9 +2,34 @@ general:
   buildTool: "npm"
 
 steps:
+  mtaBuild:
+    applicationName: "execute-test-cases"
+    platform: "CF"
+
   karmaExecuteTests:
     runCommand: "npm run test:client"
     installCommand: "echo skipping install"
-    sidecarImage: "selenium/standalone-chrome:3.141.59"   # ← PIN THIS explicitly
+    sidecarImage: "selenium/standalone-chrome:3.141.59"
     sidecarName: "selenium"
     verbose: true
+
+  sonarExecuteScan:
+    serverUrl: "https://sonar-dev.releaseowl.com"
+    instance: ""
+    projectKey: "execute-test-cases"
+    waitForQualityGate: false
+    options:
+      - "-Dsonar.projectName=Piper Karma Tests"
+      - "-Dsonar.sources=client,lib"
+      - "-Dsonar.tests=test/client"
+      - "-Dsonar.test.inclusions=test/client/**/*.spec.js"
+      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,*.pdf"
+      - "-Dsonar.javascript.file.suffixes=.js"
+      - "-Dsonar.testExecutionReportPaths=reports/TESTS-karma.xml"
+
+  testsPublishResults:
+    failOnError: false
+    junit:
+      pattern: "**/reports/TESTS*.xml"
+      archive: true
+      allowEmptyResults: true
