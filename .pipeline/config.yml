@@ -17,14 +17,18 @@ steps:
     serverUrl: "https://sonar-dev.releaseowl.com"
     instance: ""
     projectKey: "execute-test-cases"
+    token: "ce4412122d0873794f82ff0aec9a3d969d2fa467"
     waitForQualityGate: false
+    dockerImage: "sonarsource/sonar-scanner-cli:4.8"
     options:
       - "-Dsonar.projectName=Piper Karma Tests"
+      - "-Dsonar.projectVersion=1.0"
       - "-Dsonar.sources=client,lib"
       - "-Dsonar.tests=test/client"
       - "-Dsonar.test.inclusions=test/client/**/*.spec.js"
-      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,*.pdf"
+      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*"
       - "-Dsonar.javascript.file.suffixes=.js"
+      - "-Dsonar.login=ce4412122d0873794f82ff0aec9a3d969d2fa467"
       - "-Dsonar.testExecutionReportPaths=reports/TESTS-karma.xml"
 
   testsPublishResults:
