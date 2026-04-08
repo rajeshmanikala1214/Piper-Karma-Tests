@@ -40,7 +40,6 @@ const launchers = {
 }
 module.exports = function (config) {
   config.set({
-    // basePath resolves to the repo root
     basePath: '../..',
 
     frameworks: ['browserify', 'mocha'],
@@ -54,25 +53,26 @@ module.exports = function (config) {
     ],
 
     preprocessors: {
-      'test/client/*.js': ['browserify']
+      // browserify bundles the test files
+      'test/client/*.js': ['browserify'],
+      // coverage instruments the SOURCE files (not the test files)
+      'client/**/*.js': ['coverage'],
+      'lib/**/*.js': ['coverage']
     },
 
-    // dots for console output + junit for XML report
     reporters: ['progress', 'coverage', 'junit'],
 
-    // 3. Configure where the report goes
     coverageReporter: {
       dir: 'reports',
-      subdir: 'coverage',
       reporters: [
-        { type: 'lcov', subdir: 'coverage' }, // Required for SonarQube
-        { type: 'text-summary' }              // Useful for Jenkins logs
+        // lcov.info is what SonarQube reads
+        { type: 'lcov', subdir: 'coverage' },
+        // text-summary prints % to Jenkins console
+        { type: 'text-summary' }
       ]
     },
-    
+
     junitReporter: {
-      // resolves to <basePath>/reports/TESTS-karma.xml
-      // = repo-root/reports/TESTS-karma.xml
       outputDir: 'reports',
       outputFile: 'TESTS-karma.xml',
       useBrowserName: false,
@@ -80,9 +80,6 @@ module.exports = function (config) {
     },
 
     port: 9876,
-
-    // Piper injects PIPER_SELENIUM_HOSTNAME=karma into the karma container
-    // This is the hostname Selenium uses to call back to Karma server
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
 
     colors: true,
@@ -96,7 +93,6 @@ module.exports = function (config) {
       SeleniumChrome: {
         base: 'WebDriver',
         config: {
-          // Piper injects PIPER_SELENIUM_WEBDRIVER_HOSTNAME=selenium
           hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || 'selenium',
           port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
         },
@@ -111,7 +107,6 @@ module.exports = function (config) {
     browserDisconnectTimeout: 210000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 210000,
-
     reportSlowerThan: 500,
 
     plugins: [
