@@ -58,12 +58,18 @@ module.exports = function (config) {
     },
 
     // dots for console output + junit for XML report
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress', 'coverage', 'junit'],
+
+    // 3. Configure where the report goes
     coverageReporter: {
-     type: 'lcov',
-     dir: 'reports',
-     subdir: 'coverage'
+      dir: 'reports',
+      subdir: 'coverage',
+      reporters: [
+        { type: 'lcov', subdir: 'coverage' }, // Required for SonarQube
+        { type: 'text-summary' }              // Useful for Jenkins logs
+      ]
     },
+    
     junitReporter: {
       // resolves to <basePath>/reports/TESTS-karma.xml
       // = repo-root/reports/TESTS-karma.xml
@@ -114,6 +120,7 @@ module.exports = function (config) {
       'karma-firefox-launcher',
       'karma-junit-reporter',
       'karma-browserify',
+      'karma-coverage',
       'karma-webdriver-launcher'
     ],
 
