@@ -44,31 +44,37 @@ module.exports = function (config) {
 
     frameworks: ['browserify', 'mocha'],
 
+    // ✅ Include BOTH source and test files
     files: [
-      'test/client/*.js'
+      'client/**/*.js',          // ✅ source files (important for Sonar)
+      'test/client/**/*.js'      // test files
     ],
 
     exclude: [
       'test/client/karma.conf.js'
     ],
 
+    // ✅ Apply coverage ONLY on source files
     preprocessors: {
-      'test/client/*.js': ['browserify', 'coverage']
+      'client/**/*.js': ['browserify', 'coverage'],   // ✅ FIXED
+      'test/client/**/*.js': ['browserify']           // tests WITHOUT coverage
     },
 
     reporters: ['progress', 'coverage', 'junit'],
 
+    // ✅ Proper coverage config for Sonar + Jenkins
     coverageReporter: {
-      dir: 'reports',
+      dir: 'reports/coverage',
+      fixWebpackSourcePaths: true,   // ✅ helps Sonar resolve paths
+
       reporters: [
         {
-          type: 'cobertura',
-          subdir: 'coverage',
-          file: 'coverage.xml'
+          type: 'lcovonly',          // ✅ BEST for SonarQube
+          file: 'lcov.info'
         },
         {
-          type: 'lcov',
-          subdir: 'coverage'
+          type: 'cobertura',         // ✅ Jenkins Cobertura plugin
+          file: 'coverage.xml'
         },
         {
           type: 'text-summary'
@@ -111,6 +117,7 @@ module.exports = function (config) {
     browserDisconnectTimeout: 210000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 210000,
+
     reportSlowerThan: 500,
 
     plugins: [
