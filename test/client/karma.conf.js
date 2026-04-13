@@ -40,45 +40,37 @@ const launchers = {
 }
 module.exports = function (config) {
   config.set({
-    basePath: '../..',
+    basePath: '',
 
     frameworks: ['browserify', 'mocha'],
 
-    // ✅ Include BOTH source and test files
     files: [
-      'client/**/*.js',          // ✅ source files (important for Sonar)
-      'test/client/**/*.js'      // test files
+      'test/client/mocks.js',   // ✅ Fix for io issue
+      'client/**/*.js',
+      'test/client/**/*.js'
     ],
 
     exclude: [
       'test/client/karma.conf.js'
     ],
 
-    // ✅ Apply coverage ONLY on source files
     preprocessors: {
-      'client/**/*.js': ['browserify', 'coverage'],   // ✅ FIXED
-      'test/client/**/*.js': ['browserify']           // tests WITHOUT coverage
+      'client/**/*.js': ['browserify', 'coverage'],
+      'test/client/**/*.js': ['browserify']
+    },
+
+    browserify: {
+      debug: true
     },
 
     reporters: ['progress', 'coverage', 'junit'],
 
-    // ✅ Proper coverage config for Sonar + Jenkins
     coverageReporter: {
       dir: 'reports/coverage',
-      fixWebpackSourcePaths: true,   // ✅ helps Sonar resolve paths
-
       reporters: [
-        {
-          type: 'lcovonly',          // ✅ BEST for SonarQube
-          file: 'lcov.info'
-        },
-        {
-          type: 'cobertura',         // ✅ Jenkins Cobertura plugin
-          file: 'coverage.xml'
-        },
-        {
-          type: 'text-summary'
-        }
+        { type: 'lcovonly', file: 'lcov.info' },
+        { type: 'cobertura', file: 'coverage.xml' },
+        { type: 'text-summary' }
       ]
     },
 
@@ -90,10 +82,9 @@ module.exports = function (config) {
     },
 
     port: 9876,
-    hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
-
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
+
     autoWatch: false,
     singleRun: true,
 
@@ -103,34 +94,18 @@ module.exports = function (config) {
       SeleniumChrome: {
         base: 'WebDriver',
         config: {
-          hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || 'selenium',
-          port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
+          hostname: 'selenium',
+          port: 4444
         },
         browserName: 'chrome',
-        name: 'Karma',
-        flags: ['--no-sandbox', '--disable-dev-shm-usage'],
-        pseudoActivityInterval: 30000
+        flags: ['--no-sandbox', '--disable-dev-shm-usage']
       }
     },
 
-    captureTimeout: 210000,
     browserDisconnectTimeout: 210000,
-    browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 210000,
+    browserDisconnectTolerance: 3,
 
-    reportSlowerThan: 500,
-
-    plugins: [
-      'karma-mocha',
-      'karma-chrome-launcher',
-      'karma-firefox-launcher',
-      'karma-junit-reporter',
-      'karma-browserify',
-      'karma-coverage',
-      'karma-webdriver-launcher'
-    ],
-
-    concurrency: 1,
-    forceJSONP: true
-  })
-}
+    concurrency: 1
+  });
+};
