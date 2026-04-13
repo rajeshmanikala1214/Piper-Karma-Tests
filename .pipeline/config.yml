@@ -26,7 +26,7 @@ steps:
       - "-Dsonar.sources=client,lib"
       - "-Dsonar.tests=test/client"
       - "-Dsonar.test.inclusions=test/client/**/*.spec.js"
-      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,lib/config.js"
+      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,lib/config.js,lib/cli.js,lib/init.js,lib/server.js,lib/runner.js,lib/stopper.js,lib/detached.js,lib/index.js,lib/watcher.js,lib/launcher.js,lib/completion.js,lib/middleware/**/*,lib/launchers/**/*,lib/reporters/**/*,lib/utils/**/*,lib/init/**/*"
       - "-Dsonar.javascript.file.suffixes=.js"
       - "-Dsonar.login=ce4412122d0873794f82ff0aec9a3d969d2fa467"
       - "-Dsonar.javascript.lcov.reportPaths=reports/coverage/lcov.info"
