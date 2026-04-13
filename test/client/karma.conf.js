@@ -40,72 +40,90 @@ const launchers = {
 }
 module.exports = function (config) {
   config.set({
-    basePath: '',
-
+    basePath: '../..',
+ 
     frameworks: ['browserify', 'mocha'],
-
+ 
     files: [
-      'test/client/mocks.js',   // ✅ Fix for io issue
-      'client/**/*.js',
-      'test/client/**/*.js'
+      'test/client/*.js'
     ],
-
+ 
     exclude: [
       'test/client/karma.conf.js'
     ],
-
+ 
     preprocessors: {
-      'client/**/*.js': ['browserify', 'coverage'],
-      'test/client/**/*.js': ['browserify']
+      'test/client/*.js': ['browserify', 'coverage']
     },
-
-    browserify: {
-      debug: true
-    },
-
+ 
     reporters: ['progress', 'coverage', 'junit'],
-
+ 
     coverageReporter: {
-      dir: 'reports/coverage',
+      dir: 'reports',
       reporters: [
-        { type: 'lcovonly', file: 'lcov.info' },
-        { type: 'cobertura', file: 'coverage.xml' },
-        { type: 'text-summary' }
+        {
+          type: 'cobertura',
+          subdir: 'coverage',
+          file: 'coverage.xml'
+        },
+        {
+          type: 'lcov',
+          subdir: 'coverage'
+        },
+        {
+          type: 'text-summary'
+        }
       ]
     },
-
+ 
     junitReporter: {
       outputDir: 'reports',
       outputFile: 'TESTS-karma.xml',
       useBrowserName: false,
       suite: 'KarmaTests'
     },
-
+ 
     port: 9876,
+    hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
+ 
     colors: true,
-    logLevel: config.LOG_DEBUG,
-
+    logLevel: config.LOG_INFO,
     autoWatch: false,
     singleRun: true,
-
+ 
     browsers: ['SeleniumChrome'],
-
+ 
     customLaunchers: {
       SeleniumChrome: {
         base: 'WebDriver',
         config: {
-          hostname: 'selenium',
-          port: 4444
+          hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || 'selenium',
+          port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
         },
         browserName: 'chrome',
-        flags: ['--no-sandbox', '--disable-dev-shm-usage']
+        name: 'Karma',
+        flags: ['--no-sandbox', '--disable-dev-shm-usage'],
+        pseudoActivityInterval: 30000
       }
     },
-
+ 
+    captureTimeout: 210000,
     browserDisconnectTimeout: 210000,
-    browserNoActivityTimeout: 210000,
     browserDisconnectTolerance: 3,
-
-    concurrency: 1
-  });
-};
+    browserNoActivityTimeout: 210000,
+    reportSlowerThan: 500,
+ 
+    plugins: [
+      'karma-mocha',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-junit-reporter',
+      'karma-browserify',
+      'karma-coverage',
+      'karma-webdriver-launcher'
+    ],
+ 
+    concurrency: 1,
+    forceJSONP: true
+  })
+}
