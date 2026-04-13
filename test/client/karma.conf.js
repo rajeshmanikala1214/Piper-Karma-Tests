@@ -45,42 +45,15 @@ module.exports = function (config) {
     frameworks: ['browserify', 'mocha'],
 
     files: [
-      // Source files registered for coverage tracking
-      // included: false = NOT injected as <script> tags (browserify handles loading via require)
-      // served: true = available to the coverage preprocessor for instrumentation tracking
-      { pattern: 'client/**/*.js', included: false, served: true, watched: false },
-      { pattern: 'lib/**/*.js',    included: false, served: true, watched: false },
-      // Test files — bundled by browserify
       'test/client/*.js'
     ],
 
     exclude: [
-      'test/client/karma.conf.js',
-      // Exclude Node.js-only files that cannot run in browser
-      'lib/config.js',
-      'lib/cli.js',
-      'lib/init.js',
-      'lib/server.js',
-      'lib/runner.js',
-      'lib/stopper.js',
-      'lib/detached.js',
-      'lib/index.js',
-      'lib/watcher.js',
-      'lib/launcher.js',
-      'lib/completion.js',
-      'lib/middleware/**/*.js',
-      'lib/launchers/**/*.js',
-      'lib/reporters/**/*.js',
-      'lib/utils/**/*.js',
-      'lib/init/**/*.js'
+      'test/client/karma.conf.js'
     ],
 
     preprocessors: {
-      // Test files bundled with browserify
-      'test/client/*.js': ['browserify'],
-      // Source files instrumented with coverage (NOT served as scripts, just tracked)
-      'client/**/*.js': ['coverage'],
-      'lib/**/*.js':    ['coverage']
+      'test/client/*.js': ['browserify', 'coverage']
     },
 
     reporters: ['progress', 'coverage', 'junit'],
