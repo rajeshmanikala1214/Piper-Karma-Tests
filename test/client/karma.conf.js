@@ -45,7 +45,8 @@ module.exports = function (config) {
     frameworks: ['browserify', 'mocha'],
  
     files: [
-      'test/client/*.js'
+      'client/**/*.js',
+      'test/client/**/*.js'
     ],
  
     exclude: [
@@ -53,8 +54,9 @@ module.exports = function (config) {
     ],
  
     preprocessors: {
-      'test/client/*.js': ['browserify', 'coverage']
-    },
+      'client/**/*.js': ['browserify', 'coverage'],
+      'test/client/**/*.js': ['browserify']
+   },
  
     reporters: ['progress', 'coverage', 'junit'],
  
