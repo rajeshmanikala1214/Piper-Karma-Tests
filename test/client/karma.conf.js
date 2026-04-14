@@ -41,60 +41,38 @@ const launchers = {
 module.exports = function (config) {
   config.set({
     basePath: '../..',
- 
     frameworks: ['browserify', 'mocha'],
- 
     files: [
-      'client/**/*.js',
-      'test/client/**/*.js'
+      'test/client/*.js'
     ],
- 
     exclude: [
       'test/client/karma.conf.js'
     ],
- 
     preprocessors: {
-      'client/**/*.js': ['browserify', 'coverage'],
-      'test/client/**/*.js': ['browserify']
-   },
- 
+      'test/client/*.js': ['browserify', 'coverage']
+    },
     reporters: ['progress', 'coverage', 'junit'],
- 
     coverageReporter: {
       dir: 'reports',
       reporters: [
-        {
-          type: 'cobertura',
-          subdir: 'coverage',
-          file: 'coverage.xml'
-        },
-        {
-          type: 'lcov',
-          subdir: 'coverage'
-        },
-        {
-          type: 'text-summary'
-        }
+        { type: 'cobertura', subdir: 'coverage', file: 'coverage.xml' },
+        { type: 'lcov',      subdir: 'coverage' },
+        { type: 'text-summary' }
       ]
     },
- 
     junitReporter: {
       outputDir: 'reports',
       outputFile: 'TESTS-karma.xml',
       useBrowserName: false,
       suite: 'KarmaTests'
     },
- 
     port: 9876,
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
- 
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
     singleRun: true,
- 
     browsers: ['SeleniumChrome'],
- 
     customLaunchers: {
       SeleniumChrome: {
         base: 'WebDriver',
@@ -108,13 +86,11 @@ module.exports = function (config) {
         pseudoActivityInterval: 30000
       }
     },
- 
     captureTimeout: 210000,
     browserDisconnectTimeout: 210000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 210000,
     reportSlowerThan: 500,
- 
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
@@ -124,7 +100,6 @@ module.exports = function (config) {
       'karma-coverage',
       'karma-webdriver-launcher'
     ],
- 
     concurrency: 1,
     forceJSONP: true
   })
