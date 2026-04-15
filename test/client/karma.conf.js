@@ -43,8 +43,8 @@ module.exports = function (config) {
     basePath: '../..',
     frameworks: ['browserify', 'mocha'],
     files: [
-      'test/client/*.js'
-    ],
+  'test/client/**/*.js'
+],
     exclude: [
       'test/client/karma.conf.js'
     ],
