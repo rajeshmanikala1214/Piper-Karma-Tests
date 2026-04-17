@@ -99,7 +99,7 @@ module.exports = function (config) {
       'karma-browserify',
       'karma-coverage',
       'karma-webdriver-launcher',
-       require('../../karma-sonar-reporter')
+      require('./karma-sonar-reporter')
     ],
     concurrency: 1,
     forceJSONP: true
