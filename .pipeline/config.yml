@@ -28,7 +28,7 @@ steps:
       - "-Dsonar.test.inclusions=test/client/**/*.js"
       - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,lib/config.js"
       - "-Dsonar.javascript.file.suffixes=.js"
-      - "-Dsonar.login=squ_79729918fc50c1b6031ee56a075dc51b247406ce"
+      - "-Dsonar.token=squ_79729918fc50c1b6031ee56a075dc51b247406ce"
       - "-Dsonar.javascript.lcov.reportPaths=reports/coverage/lcov.info"
       - "-Dsonar.testExecutionReportPaths=reports/test-execution.xml"
 
