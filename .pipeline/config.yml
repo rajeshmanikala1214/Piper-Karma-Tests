@@ -14,10 +14,10 @@ steps:
     verbose: true
 
   sonarExecuteScan:
-    serverUrl: "https://sonar-dev.releaseowl.com"
+    serverUrl: "http://54.144.105.219:9000/account/security"
     instance: ""
     projectKey: "execute-test-cases"
-    token: "ce4412122d0873794f82ff0aec9a3d969d2fa467"
+    token: "squ_79729918fc50c1b6031ee56a075dc51b247406ce"
     waitForQualityGate: false
     dockerImage: "sonarsource/sonar-scanner-cli:4.8"
     options:
@@ -27,10 +27,10 @@ steps:
       - "-Dsonar.tests=test/client"
       - "-Dsonar.test.inclusions=test/client/**/*.js"
       - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,lib/config.js"
-      - "-Dsonar.login=ce4412122d0873794f82ff0aec9a3d969d2fa467"
+      - "-Dsonar.login=squ_79729918fc50c1b6031ee56a075dc51b247406ce"
       - "-Dsonar.javascript.file.suffixes=.js"
       - "-Dsonar.javascript.lcov.reportPaths=reports/coverage/lcov.info"
-      - "-Dsonar.junit.reportPaths=reports/TESTS-karma.xml"
+      - "-Dsonar.testExecutionReportPaths=reports/TESTS-karma.xml"
 
   testsPublishResults:
     failOnError: false
