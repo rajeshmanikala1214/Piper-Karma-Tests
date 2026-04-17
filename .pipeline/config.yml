@@ -19,7 +19,7 @@ steps:
     projectKey: "execute-test-cases"
     token: "squ_79729918fc50c1b6031ee56a075dc51b247406ce"
     waitForQualityGate: false
-    dockerImage: "sonarsource/sonar-scanner-cli:4.8"
+    dockerImage: "sonarsource/sonar-scanner-cli:latest"
     options:
       - "-Dsonar.projectName=Piper Karma Tests"
       - "-Dsonar.projectVersion=1.0"
