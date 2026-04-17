@@ -14,7 +14,7 @@ steps:
     verbose: true
 
   sonarExecuteScan:
-    serverUrl: "http://54.144.105.219:9000/account/security"
+    serverUrl: "http://54.144.105.219:9000"
     instance: ""
     projectKey: "execute-test-cases"
     token: "squ_79729918fc50c1b6031ee56a075dc51b247406ce"
