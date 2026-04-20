@@ -51,7 +51,7 @@ module.exports = function (config) {
     preprocessors: {
       'test/client/*.js': ['browserify', 'coverage']
     },
-    reporters: ['progress', 'coverage', 'junit', 'sonar'],
+    reporters: ['progress', 'coverage', 'junit'],
     coverageReporter: {
       dir: 'reports',
       reporters: [
@@ -98,8 +98,7 @@ module.exports = function (config) {
       'karma-junit-reporter',
       'karma-browserify',
       'karma-coverage',
-      'karma-webdriver-launcher',
-      require('./karma-sonar-reporter')
+      'karma-webdriver-launcher'
     ],
     concurrency: 1,
     forceJSONP: true
