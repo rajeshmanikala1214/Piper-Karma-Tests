@@ -23,10 +23,10 @@ steps:
     options:
       - "-Dsonar.projectName=Piper Karma Tests"
       - "-Dsonar.projectVersion=1.0"
-      - "-Dsonar.sources=client,lib"
+      - "-Dsonar.sources=client,lib,test/client"
       - "-Dsonar.tests=test/client"
-      - "-Dsonar.test.inclusions=test/client/**/*.js"
-      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,reports/**/*,lib/config.js"
+      - "-Dsonar.test.inclusions=test/client/**/*.spec.js,test/client/mocks.js"
+      - "-Dsonar.exclusions=node_modules/**/*,dist/**/*,gen/**/*,lib/config.js"
       - "-Dsonar.javascript.file.suffixes=.js"
       - "-Dsonar.token=squ_79729918fc50c1b6031ee56a075dc51b247406ce"
       - "-Dsonar.javascript.lcov.reportPaths=reports/coverage/lcov.info"
