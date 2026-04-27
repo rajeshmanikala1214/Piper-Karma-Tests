@@ -487,7 +487,6 @@
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.0",
     "karma-script-launcher": "^1.0.0",
-    "karma-sonarqube-reporter": "^1.4.0",
     "karma-sonarqube-unit-reporter": "^0.0.23",
     "karma-webdriver-launcher": "^1.0.8",
     "mocha": "^4.1.0",
