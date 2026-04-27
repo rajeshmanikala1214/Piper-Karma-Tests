@@ -41,17 +41,23 @@ const launchers = {
 module.exports = function (config) {
   config.set({
     basePath: '../..',
+
     frameworks: ['browserify', 'mocha'],
+
     files: [
       'test/client/*.js'
     ],
+
     exclude: [
       'test/client/karma.conf.js'
     ],
+
     preprocessors: {
       'test/client/*.js': ['browserify', 'coverage']
     },
-    reporters: ['progress', 'coverage', 'junit'],
+
+    reporters: ['progress', 'coverage', 'junit', 'sonarqubeUnit'],
+
     coverageReporter: {
       dir: 'reports',
       reporters: [
@@ -60,19 +66,34 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
+
     junitReporter: {
       outputDir: 'reports',
       outputFile: 'TESTS-karma.xml',
       useBrowserName: false,
       suite: 'KarmaTests'
     },
+
+    // Generates SonarQube Generic Test Execution XML directly
+    sonarQubeUnitReporter: {
+      sonarQubeVersion: 'LATEST',
+      outputFile: 'reports/test-execution.xml',
+      overrideTestDescription: true,
+      testPaths: ['test/client'],
+      testFilePattern: '.spec.js',
+      useBrowserName: false
+    },
+
     port: 9876,
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || '0.0.0.0',
+
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
     singleRun: true,
+
     browsers: ['SeleniumChrome'],
+
     customLaunchers: {
       SeleniumChrome: {
         base: 'WebDriver',
@@ -86,11 +107,13 @@ module.exports = function (config) {
         pseudoActivityInterval: 30000
       }
     },
+
     captureTimeout: 210000,
     browserDisconnectTimeout: 210000,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 210000,
     reportSlowerThan: 500,
+
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
@@ -98,8 +121,10 @@ module.exports = function (config) {
       'karma-junit-reporter',
       'karma-browserify',
       'karma-coverage',
-      'karma-webdriver-launcher'
+      'karma-webdriver-launcher',
+      'karma-sonarqube-unit-reporter'
     ],
+
     concurrency: 1,
     forceJSONP: true
   })
